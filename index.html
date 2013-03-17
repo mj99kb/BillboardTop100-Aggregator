@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Billboard Analysis Project</title>
+
+<style>
+
+	.container {width:1024px; position:relative; margin:0 auto;}
+	.wrapper {width:1024px; float:left; clear:left; height:100%; background-color:#FFF;}
+	h2.title {padding-left:22px; font-family:Arial, Helvetica, sans-serif;}
+	.day {border-top:1px solid #999; margin:10px 20px; padding:10px 0; font-family:Arial, Helvetica, sans-serif;}
+	ol li {padding-top:12px;}
+	h3.date {margin:0; padding:0; padding-bottom:10px;}
+	p {text-indent:30px;}
+
+</style>
+
+</head>
+
+<body bgcolor="#F3F3F3">
+
+<div class="container">
+	<div class="wrapper">
+    	<h2 class="title">Billboard Analysis Project: Version Archive</h2>
+
+		<div class="day">
+        	<h3 class="date">June 15, 2011</h3>
+            <a href="parser_v007.php" target="_blank">parser_v007.php</a><br />
+            <a href="Billboard(1890-2011).csv" target="_blank">Billboard(1890-2011).csv</a>
+            <p>
+            I made some very good progress with this version of the program. I was able to implement an Aggregate Data section to the program, which would provide users with some default ways of aggregating data. There is list all artists, list all albums, list all songs, list all labels, and frequency stats. I thought it might be helpful to put the artist, album, song, and label lists into a text area and have a button to select all text easily. The frequency stats currently lists the top 100 entries for artists, albums, and labels. Top songs were not included because they would obviously only be on the chart once. There are seperate statistics to track the amount of weeks a song is on the top 100 list.
+            </p>
+        </div>
+
+		<div class="day">
+        	<h3 class="date">June 10, 2011</h3>
+            <a href="parser_v006.php" target="_blank">parser_v006.php</a><br />
+            <a href="Billboard(1890-2011).csv" target="_blank">Billboard(1890-2011).csv</a>
+            <p>
+            With the help of Professor Sinclair I managed to get my program working with the <b>whole</b> database! The problem was that I was originally using if statements to save elements to each key. This meant that the program had to run through the database thousands of times, which caused it to slow down significantly. Professor Sinclair suggested that I just assign keys in the declaration of the array, like this:</p>
+            <div style="padding-left:20px;">
+                <code>
+        while($data = fgetcsv($handle, 10000, ",")){<br />
+           $entries[] = array(<br />
+               'year' => $data[0],<br />
+               'yearlyRank' => $data[1],<br />
+               'prefix' => $data[3],<br />
+               'high' => $data[8],<br />
+               'artist' => $data[10],<br />
+               'artist-i' => $data[11],<br />
+               'featured' => $data[12],<br />
+               'album' => $data[14],<br />
+               'title' => $data[16],<br />
+               'time' => $data[17],<br />
+               'label' => $data[24],<br />
+               'written' => $data[30]<br />
+           );<br />
+        }
+                </code>
+            </div>
+			<p>My next step is to create some default options of aggregating the information in the database. I will be building off of the sort by year function and looking into some useful ways to organize the data.</p>
+        </div>
+
+        <div class="day">
+        	<h3 class="date">May 31, 2011</h3>
+            <a href="parser_v005.php" target="_blank">parser_v005.php</a><br />
+            <a href="Billboard_short2.csv" target="_blank">Billboard_short2.csv</a>
+            <p>
+            Today I ran into a fairly large issue. I was creating the search function for the program, which allows a user to search by artist, title, album, year, or all fields. I tried the program with the full spreadsheet and it would not load. I then tried it with 1000 entries and it still had trouble loading. I lowered it again to 366 entries and it works, although you can tell that it is a bit slow. I did not anticipate that the program would not run because there was too much information in the database. I will probably have to consult with Professor Sinclair for possible solutions. At the moment the only solution I can think of is transfering the data into a MySQL database and accessing through that. 
+        </div>
+        
+        <div class="day">
+        	<h3 class="date">May 30, 2011</h3>
+            <a href="parser_v004.php" target="_blank">parser_v004.php</a><br />
+            <p>
+            I've been having trouble connecting the program with a song lyric database. At first I thought it wouldn't be too hard finding 1 or 2 databases that I could use to link to each of the songs. However, I've found that some of older songs are harder to find lyrics for on a lot of databases. It was easy enough to find lyrics through google, but I couldn't lyrics consistently on different sites. I will have to think about how to do this more and possibly consult with Professor Sinclair.
+            </p>
+            <p>
+            On a much happier note, I got the search function working with the database. You can now search for artist, title, album, or in all three fields. A successful search will display the Artist, Song title, Album, Year, Record Label, and Length of the song. I am still only working with the smaller set of 40 songs. I will probably test the search function with the full database once I work on other functions.
+            </p>
+        </div>
+        
+        <div class="day">
+        	<h3 class="date">May 27, 2011</h3>
+            <a href="parser_v003.php" target="_blank">parser_v003.php</a><br />
+            <p>
+            I made some good progress in this week's update of the program. I was able to assign a unique key to each of the relevant categories and save each song's data in the appropriate entry and key. The most challenging thing I faced was creating a loop to loop through the weekly rank categories (from week 1 - 76) and then save them in keys 1 - 76 of the second index. As you can see from the output in parser_v003.php the code properly saves each weeks rank. I think the next step is to connect the songs to the lyric database and then integrate the full spreadsheet. 
+            </p>
+        </div>
+        
+        <div class="day">
+        	<h3 class="date">May 21, 2011</h3>
+            <a href="parser_v002.php" target="_blank">parser_v002.php</a><br />
+            <p>
+            My first thought in creating a multi-dimensional array was to make an array called entry and then have each index be a category. For example <code>entry['year']['artist']['title']['album']</code>. However, I think that I was thinking of how the multi-dimensional array worked in a wrong way. After much thought, trial and error, I decided to have the array's first index be a unique key identifying the song and the second index containing keys for each category ie. <code>entry[36]['title'], entry[537]['album'], entry[35899]['artist']</code> This way of organizing the songs allows me to access categories, or sets within categories very easily. 
+            </p>
+            <p>
+            I only used 40 entries and 4 categories to test as the program crashed a lot when I was testing with 40,000+ entries. <code>var_dump()</code> was very helpful in working through the logic of the <code>while</code> loop and the <code>foreach</code> loop. I had to add the $i variable in order to increment the first index of the $entry array. At first I used $key thinking that it would increment once for each row, however it actually increments for each column in all of the rows. 
+            </p>
+        </div>
+         
+        <div class="day">
+        	<h3 class="date">May 16, 2011</h3>
+            <a href="dc_v001.php" target="_blank">dc_v001.php</a><br />
+            <a href="parser_v001.php" target="_blank">parser_v001.php</a><br />
+            <a href="Billboard_short.csv" target="_blank">Billboard_short.csv</a>
+            <p>
+            This is my initial attempt at creating a script that will access the contents of the Billboard spreadsheet and parse the information. I used/altered the script found in dc_v001.php from PHP.net 
+            to understand how to grab the information using the function <code>fgetcsv</code>. Parser_v001.php is my attempt at recreating the script with a <code>foreach</code> loop. I ran into a few issues and learned some things while trying to write my own script.
+            <ol>
+            	<li>The function <code>fopen</code> is needed to open the file, which is used in conjunction with <code>fgetcsv</code> to read a csv file. I initially thought that <code>fgetcsv</code> would open <em>and</em> read the file. </li>
+            	<li>A <code>for</code> or <code>foreach</code> loop inside of the <code>while</code> loop is needed in order to cycle each of the elements through <code>$data</code> and display them. At first I tried to access the contents with only the <code>foreach</code> loop, however this resulted in $data only displaying the first row. Having <code>$data = fgetcsv($handle, 3000, ",")</code> inside of the <code>while</code> statement will start reading the file and have each of the rows loop through $data</li>
+            	<li>I had to replace Billboard(1890-2011).csv with Billboard_short.csv in order to test my code because the original file was taking a lot of time to compile. The shorter version only contains 40 entries as opposed to the almost 40,000 entries in the original. </li>
+        	</ol>
+            In the end I was able to reproduce the same result with the <code>foreach</code> loop in my code as the <code>for</code> loop was producing in the PHP.net version. I think the next step will be to use this loop to save all of the data into a multi-dimensional array containing each category and each listing. I also need to write a script that will get rid of the empty entries after the last column (76th Week). 
+            </p>
+        </div>  
+        
+	</div>
+</div>
+
+
+</body>
+</html>
